@@ -49,6 +49,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.steamitemwatcher.MainActivity" />
         </activity>
+        <activity
+            android:name=".AddItemSearchList"
+            android:label="@string/title_activity_add_item_search_list"
+            android:parentActivityName=".AddItem" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.steamitemwatcher.AddItem" />
+        </activity>
     </application>
 
 </manifest>

@@ -1,7 +1,5 @@
 package com.example.steamitemwatcher;
 
-import com.example.steamitemwatcher.SteamArrayAdapter.ImageDownloader;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

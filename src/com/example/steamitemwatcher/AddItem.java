@@ -24,6 +24,7 @@ import com.example.steamitemwatcher.SteamArrayAdapter.ImageDownloader;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,8 +39,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class AddItem extends ActionBarActivity {
-
+	static final int ITEM_SEARCH_REQUEST = 37;
+	static final String USER_SEARCH_STRING = "com.example.steamitemwatcher.SEARCH";
 	
+	String searchresult;
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +50,19 @@ public class AddItem extends ActionBarActivity {
     }
 	
 	
+	
 	 public void addItem(View view){
 	    	
 	    	EditText editText = (EditText) findViewById(R.id.edit_message);
-	    	String description = editText.getText().toString();
+	    	if(editText.getText().toString() == "") return;
+	    	Intent intent = new Intent(this, AddItemSearchList.class);
+	    	intent.putExtra(USER_SEARCH_STRING, editText.getText().toString());
+	    	
+	    	startActivity(intent);
+	    	editText.setText("");
+	    	/**
+	    	if (searchresult == "") return;
+	    	
 	    	SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.preference_url_list), 0);
 	    	int count = sharedPref.getInt(getString(R.string.preference_url_list_length), 0);
 	    	SharedPreferences.Editor editor = sharedPref.edit();
@@ -59,28 +71,9 @@ public class AddItem extends ActionBarActivity {
 	    	editor.putInt(getString(R.string.preference_url_list_length), count);
 	    	editor.commit();
 	    	
-	    	
-	    	
 	    	ImageDownloader i = new ImageDownloader();
-		    
-		    
-		    
-		    
 		    i.downloadpic(description);
-	    	
-	    	
-	    	
-	    	
-	    	Context context = getApplicationContext();
-	    	CharSequence text = "Item Added!";
-	    	int duration = Toast.LENGTH_SHORT;
-
-	    	Toast toast = Toast.makeText(context, text, duration);
-	    	toast.show();
-	    	
-	    	
-	    	
-	    	finish();
+	    	*/
 	 }
 	 
 	 public class ImageDownloader {
