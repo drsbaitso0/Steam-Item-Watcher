@@ -17,5 +17,6 @@
     <string name="title_activity_delete_item">Delete Item</string>
     <string name="WEAPON_ICON">Weapon Icon</string>
     <string name="title_activity_add_item_search_list">Add New Item</string>
+    <string name="action_refresh">Refresh</string>
 
 </resources>

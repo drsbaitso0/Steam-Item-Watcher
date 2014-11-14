@@ -5,12 +5,9 @@ package com.example.steamitemwatcher;
 
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,25 +17,20 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import com.example.steamitemwatcher.SteamArrayAdapter.ImageDownloader;
-
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-public class AddItem extends ActionBarActivity {
+public class AddItem extends FragmentActivity {
 	static final int ITEM_SEARCH_REQUEST = 37;
 	static final String USER_SEARCH_STRING = "com.example.steamitemwatcher.SEARCH";
 	
