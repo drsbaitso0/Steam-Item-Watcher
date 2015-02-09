@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.steamitemwatcher.DataDump" >
+
+    
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/priceToQuantSeek" />
+    
+    
+     <SeekBar
+        android:id="@+id/priceToQuantSeek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="8dp"
+        android:layout_above="@+id/showPrice"
+        android:layout_toLeftOf="@+id/priceToQuantText"
+        android:layout_marginRight="5dp"
+        android:max="200"
+        android:paddingBottom="12dp" />
+    
+   
+  
+    <TextView
+        android:id="@+id/priceToQuantText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/priceToQuantSeek"
+        android:layout_alignParentRight="true"
+        android:text="500"
+        android:layout_above="@+id/showPrice"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="10dp"
+        android:gravity="right"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <CheckBox
+        android:id="@+id/showPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onPriceBoxClicked"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/showPriceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/showPrice"
+        android:layout_alignBottom="@+id/showPrice"
+        android:layout_toRightOf="@+id/showPrice"
+        android:text="Show Price" />
+    
+    <CheckBox
+        android:id="@+id/showQuant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onQuantBoxClicked"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/showPriceText"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/showQuantText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/showPrice"
+        android:layout_alignBottom="@+id/showPrice"
+        android:layout_toRightOf="@+id/showQuant"
+        android:text="Show Quantity" />
+
+</RelativeLayout>

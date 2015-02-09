@@ -8,10 +8,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainList extends ListActivity {
 
 	SteamArrayAdapter adapter;
+	String[] values;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -25,7 +29,24 @@ public class MainList extends ListActivity {
 		
 		 SteamArrayAdapter adapter = new SteamArrayAdapter(this, values);
 		 this.adapter = adapter;
+		 this.values = values;
 		 setListAdapter(adapter);
+	}
+	
+	
+	protected void onListItemClick (ListView l, View v, int position, long id){
+		
+		SteamArrayAdapter.ImageDownloader i = new SteamArrayAdapter.ImageDownloader();
+		((TextView) v.findViewById(R.id.itemname)).setText("Loading...");
+		((TextView) v.findViewById(R.id.price)).setText("");
+		((TextView) v.findViewById(R.id.quantity)).setText("");
+		i.downloadtexts(values[position], (TextView) v.findViewById(R.id.itemname), (TextView) v.findViewById(R.id.price), (TextView) v.findViewById(R.id.quantity));
+		
+	    
+		
+		
+		
+		
 	}
 	
 	@Override

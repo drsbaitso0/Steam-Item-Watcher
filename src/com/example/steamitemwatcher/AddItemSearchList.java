@@ -62,21 +62,21 @@ public class AddItemSearchList extends ListActivity {
     	ImageView tempimage = (ImageView) v.findViewById(R.id.itempic);
     	Bitmap bitmap = drawableToBitmap(tempimage.getDrawable());
     	String name = temp.getText().toString();
-    	
+    	String picname = name.replace('/', ' ');
     	ContextWrapper cw = new ContextWrapper(getApplicationContext());
        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-       File mypath=new File(directory,name + ".jpg");
-
+       File mypath=new File(directory,picname + ".jpg");
+       
        FileOutputStream fos = null;
        try {           
 
            fos = new FileOutputStream(mypath);
-
       // Use the compress method on the BitMap object to write image to the OutputStream
            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
            fos.close();
        } catch (Exception e) {
            e.printStackTrace();
+           
        }
     	
     	

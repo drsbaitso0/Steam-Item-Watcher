@@ -69,7 +69,8 @@ public class SteamArrayAdapter extends ArrayAdapter<String> {
         // path to /data/data/yourapp/app_data/imageDir
        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
        try {
-	         File f=new File(directory,description + ".jpg");
+    	   	String descriptionimage = description.replace('/', ' ');
+	         File f=new File(directory,descriptionimage + ".jpg");
 	         Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
 	         imageView.setImageBitmap(b);
 	     } 
@@ -95,7 +96,7 @@ public class SteamArrayAdapter extends ArrayAdapter<String> {
 	
 	
 	
-	public class ImageDownloader {
+	public static class ImageDownloader {
 		
 		public void downloadtexts(String url, TextView Name, TextView Price, TextView Quant){
 			TextDownloaderTask task = new TextDownloaderTask(Name, Price, Quant);
@@ -110,7 +111,7 @@ public class SteamArrayAdapter extends ArrayAdapter<String> {
 
 	    /* class BitmapDownloaderTask, see below */
 	
-	class TextDownloaderTask extends AsyncTask<String, Void, String[] >{
+	static class TextDownloaderTask extends AsyncTask<String, Void, String[] >{
 		
 		private final WeakReference<TextView> NameViewReference;
 		private final WeakReference<TextView> PriceViewReference;
@@ -129,6 +130,17 @@ public class SteamArrayAdapter extends ArrayAdapter<String> {
 				try {
 			    	Document doc = Jsoup.connect("http://steamcommunity.com/market/search?q=" + params[0]).get();
 					Element e = doc.getElementById("result_0_name");
+					int retry = 0;
+					while(e==null && retry<3){
+						doc = Jsoup.connect("http://steamcommunity.com/market/search?q=" + params[0]).get();
+						e = doc.getElementById("result_0_name");
+						++retry;
+					}
+					if(retry==3){
+						v[0] = "Error";
+						return v;
+					}
+					
 					v[0] = e.text();
 					e = doc.getElementsByClass("market_listing_num_listings_qty").first();
 					v[2] = e.text();
@@ -165,7 +177,7 @@ public class SteamArrayAdapter extends ArrayAdapter<String> {
 	
 	
 	
-	class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
+	static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 	    
 	    private final WeakReference<ImageView> imageViewReference;
 

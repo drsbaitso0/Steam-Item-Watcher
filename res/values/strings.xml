@@ -7,16 +7,20 @@
     <string name="action_new">New</string>
     <string name="VIEW_LIST">View List</string>
     <string name="DELETE_ITEM">Delete Item</string>
-    <string name="ADD_ITEM">Add New Item</string>
+    <string name="ADD_ITEM">Add Item</string>
     <string name="title_activity_mainlist">Main List</string>
-    <string name="item_url">Put Item URL Here</string>
+    <string name="item_url">Item Name</string>
     <string name="add">Add</string>
     <string name="preference_url_list">PreferenceUrlList</string>
     <string name="preference_url_list_length">PreferenceURLListLength</string>
     <string name="preference_base_item">PreferenceBaseItem</string>
     <string name="title_activity_delete_item">Delete Item</string>
     <string name="WEAPON_ICON">Weapon Icon</string>
-    <string name="title_activity_add_item_search_list">Add New Item</string>
+    <string name="title_activity_add_item">Add New Item</string>
     <string name="action_refresh">Refresh</string>
+    <string name="ADD_NEW_ITEM">Add New Item</string>
+    <string name="HISTORICAL_LIST">Historical List</string>
+    <string name="title_activity_historical_list">Historical List</string>
+    <string name="title_activity_data_dump">Data Dump</string>
 
 </resources>

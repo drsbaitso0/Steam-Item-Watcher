@@ -1,6 +1,5 @@
 package com.example.steamitemwatcher;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 
@@ -8,11 +7,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import com.example.steamitemwatcher.SteamArrayAdapter.BitmapDownloaderTask;
 
 import android.content.Context;
 import android.graphics.Bitmap;

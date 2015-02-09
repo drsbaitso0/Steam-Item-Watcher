@@ -9,6 +9,8 @@ import android.view.View;
 
 public class MainActivity extends FragmentActivity {
 
+	DailyReceiver alarm = new DailyReceiver();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,23 +36,23 @@ public class MainActivity extends FragmentActivity {
 	public void addItem(View view){
 		Intent intent = new Intent(this, AddItem.class);
 		startActivity(intent);
-		//Inside here we instantiate a helper class, call getWritableDatabase to get an SQLiteDatabase object db.
-		//Then populate a ContentValues object with your data, the run db.insert(...) on this object.
-		
 	}
 	
 	
 	public void deleteItem(View view){
 		Intent intent = new Intent(this, DeleteItem.class);
 		startActivity(intent);
-		
-		
 	}
 	
 	
+	public void historicalList(View view){
+		Intent intent = new Intent(this, HistoricalList.class);
+		startActivity(intent);
+	}
 	
-	
-	
+	public void setAlarm(View view){
+		alarm.setAlarm(this);
+	}
 	
 	
 }

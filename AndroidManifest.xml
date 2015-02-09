@@ -4,11 +4,11 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
-
+    <uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="19"
         android:targetSdkVersion="21" />
 
     <application
@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name=".AddItem"
-            android:label="@string/ADD_ITEM"
+            android:label="@string/title_activity_add_item"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -50,13 +50,38 @@
                 android:value="com.example.steamitemwatcher.MainActivity" />
         </activity>
         <activity
+            android:name=".HistoricalList"
+            android:label="@string/title_activity_historical_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.steamitemwatcher.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DataDump"
+            android:label="@string/title_activity_data_dump"
+            android:parentActivityName=".HistoricalList" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.steamitemwatcher.HistoricalList" />
+        </activity>
+        <activity
             android:name=".AddItemSearchList"
-            android:label="@string/title_activity_add_item_search_list"
+            android:label="@string/title_activity_add_item"
             android:parentActivityName=".AddItem" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.steamitemwatcher.AddItem" />
         </activity>
+        
+        <receiver android:name="com.example.steamitemwatcher.DailyReceiver" />
+        <receiver android:name=".DailyBootReceiver"
+        	android:enabled="false">
+    		<intent-filter>
+        		<action android:name="android.intent.action.BOOT_COMPLETED"></action>
+    		</intent-filter>
+		</receiver>
+        <service  android:name="com.example.steamitemwatcher.PriceRecordingService" />
     </application>
 
 </manifest>
