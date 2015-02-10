@@ -21,25 +21,13 @@
         android:layout_alignParentLeft="true"
         android:layout_margin="8dp"
         android:layout_above="@+id/showPrice"
-        android:layout_toLeftOf="@+id/priceToQuantText"
         android:layout_marginRight="5dp"
         android:max="200"
         android:paddingBottom="12dp" />
     
    
   
-    <TextView
-        android:id="@+id/priceToQuantText"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/priceToQuantSeek"
-        android:layout_alignParentRight="true"
-        android:text="500"
-        android:layout_above="@+id/showPrice"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="10dp"
-        android:gravity="right"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+   
 
     <CheckBox
         android:id="@+id/showPrice"

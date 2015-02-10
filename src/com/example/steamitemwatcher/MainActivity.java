@@ -9,7 +9,6 @@ import android.view.View;
 
 public class MainActivity extends FragmentActivity {
 
-	DailyReceiver alarm = new DailyReceiver();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +49,9 @@ public class MainActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 	
-	public void setAlarm(View view){
-		alarm.setAlarm(this);
+	public void settings(View view){
+		Intent intent = new Intent(this, Settings.class);
+		startActivity(intent);
 	}
 	
 	

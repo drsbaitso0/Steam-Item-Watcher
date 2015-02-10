@@ -55,8 +55,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:text="Set Alarm"
-        android:onClick="setAlarm" />
+        android:text="Settings"
+        android:onClick="settings" />
 
     
 

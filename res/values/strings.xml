@@ -10,7 +10,7 @@
     <string name="ADD_ITEM">Add Item</string>
     <string name="title_activity_mainlist">Main List</string>
     <string name="item_url">Item Name</string>
-    <string name="add">Add</string>
+    <string name="add">Search</string>
     <string name="preference_url_list">PreferenceUrlList</string>
     <string name="preference_url_list_length">PreferenceURLListLength</string>
     <string name="preference_base_item">PreferenceBaseItem</string>
@@ -19,8 +19,10 @@
     <string name="title_activity_add_item">Add New Item</string>
     <string name="action_refresh">Refresh</string>
     <string name="ADD_NEW_ITEM">Add New Item</string>
-    <string name="HISTORICAL_LIST">Historical List</string>
+    <string name="HISTORICAL_LIST">View Charts</string>
     <string name="title_activity_historical_list">Historical List</string>
     <string name="title_activity_data_dump">Data Dump</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="preference_length_of_time">Length Of Time</string>
 
 </resources>

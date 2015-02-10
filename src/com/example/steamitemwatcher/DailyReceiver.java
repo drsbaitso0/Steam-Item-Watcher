@@ -1,13 +1,22 @@
 package com.example.steamitemwatcher;
 
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.Scanner;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
@@ -16,7 +25,7 @@ public class DailyReceiver extends WakefulBroadcastReceiver {
 
 	 private AlarmManager alarmMgr;
 	 private PendingIntent alarmIntent;
-	
+	 
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -25,6 +34,10 @@ public class DailyReceiver extends WakefulBroadcastReceiver {
 		Intent service = new Intent(context, PriceRecordingService.class);
 
         
+		
+		
+		
+		
         
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         
@@ -32,8 +45,22 @@ public class DailyReceiver extends WakefulBroadcastReceiver {
         
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
+        ContextWrapper cw = new ContextWrapper(context.getApplicationContext());
+	    File directory = cw.getDir("historyDir", Context.MODE_PRIVATE);
+	    File temppath = new File(directory, "alarmlength");
+	    int i;
+	    try{
+			FileInputStream fis = new FileInputStream(temppath);
+			Scanner sc = new Scanner(fis);
+			i = Integer.parseInt(sc.nextLine());
+	    }
+	    catch(IOException e){
+	    	i = 24;
+		}
         
-        calendar.add(Calendar.HOUR, 24);
+        
+        
+        calendar.add(Calendar.HOUR, i);
         System.out.println("Silent Alarm SeT");
         
         alarmMgr.setExact(AlarmManager.RTC_WAKEUP,  
@@ -45,8 +72,25 @@ public class DailyReceiver extends WakefulBroadcastReceiver {
 	}
 	
 	
-	public void setAlarm(Context context) {
-        //Eventually just have the alarm always go off at noon or whatever.
+	public void setAlarm(Context context, int length) {
+        
+		
+		
+		ContextWrapper cw = new ContextWrapper(context.getApplicationContext());
+	    File directory = cw.getDir("historyDir", Context.MODE_PRIVATE);
+	    File temppath = new File(directory, "alarmlength");
+	    PrintWriter out;
+		
+		try {
+			out = new PrintWriter(new BufferedWriter(new FileWriter(temppath)));
+			out.append("" + length);
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		
 		System.out.println("Alarm has been set.");
 		alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, DailyReceiver.class);

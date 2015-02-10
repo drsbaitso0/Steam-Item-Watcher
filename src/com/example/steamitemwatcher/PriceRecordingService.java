@@ -70,6 +70,11 @@ public class PriceRecordingService extends IntentService {
 				out.append("\n");
 			}
 			out.close();
+			try {
+				Thread.sleep(60000);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
 		}
 	    
 		

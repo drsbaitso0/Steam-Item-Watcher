@@ -15,13 +15,14 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarLineChartBase.BorderPosition;
 import com.github.mikephil.charting.charts.LineChart;
@@ -41,11 +42,13 @@ OnChartGestureListener, OnChartValueSelectedListener{
 	public static final int holo_orange_dark = 17170457;
 	private LineChart mChart;
 	private SeekBar priceToQuantRatio;
-	private TextView priceToQuantRatioText;
 	private CheckBox priceCheck, quantCheck;
 	private float a, b;
-	
+	private boolean circlesOn;
 	private ArrayList<String> dateVals;
+	private ArrayList<String> verbDateVals;
+	private ArrayList<String> brevDateVals;
+	
 	private ArrayList<Entry> priceVals;
 	private ArrayList<Entry> quantVals;
 	
@@ -59,9 +62,9 @@ OnChartGestureListener, OnChartValueSelectedListener{
 		
 		mChart = (LineChart) findViewById(R.id.chart1);
 		priceToQuantRatio = (SeekBar) findViewById(R.id.priceToQuantSeek);
-		priceToQuantRatioText = (TextView) findViewById(R.id.priceToQuantText);
 		priceCheck = (CheckBox) findViewById(R.id.showPrice);
 		quantCheck = (CheckBox) findViewById(R.id.showQuant);
+		circlesOn = false;
 		
 		priceCheck.setChecked(true);
 		quantCheck.setChecked(true);
@@ -70,7 +73,7 @@ OnChartGestureListener, OnChartValueSelectedListener{
 		
 		Intent intent = getIntent();
 		position = intent.getIntExtra("position", 0);
-		//TextView textView = new TextView(this);
+		
 		
 		ContextWrapper cw = new ContextWrapper(getApplicationContext());
 	    File directory = cw.getDir("historyDir", Context.MODE_PRIVATE);
@@ -80,13 +83,14 @@ OnChartGestureListener, OnChartValueSelectedListener{
 	    String itemname = sharedPref.getString(getString(R.string.preference_base_item)+position, "ERROR");
 		String itemfilename = itemname.replace('/', ' ');
 		File file = new File(directory, itemfilename);
-		String str;
+		
 		try{
 			FileInputStream fis = new FileInputStream(file);
-			byte[] data = new byte[(int) file.length()];
 			Scanner sc = new Scanner(fis);
 			
 			int i = 0;
+			verbDateVals = new ArrayList<String>();
+			brevDateVals = new ArrayList<String>();
 			dateVals = new ArrayList<String>();
 			priceVals = new ArrayList<Entry>();
 			quantVals = new ArrayList<Entry>();
@@ -95,15 +99,18 @@ OnChartGestureListener, OnChartValueSelectedListener{
 			
 			while(sc.hasNextLine()){
 				String date = sc.nextLine();
+				
+				
 				String stringprice = sc.nextLine();
 				String stringquant = sc.nextLine().replaceAll(",","");
 				sc.nextLine();
 				Pattern pattern = Pattern.compile("\\d*\\.\\d*");
 				Matcher matcher = pattern.matcher(stringprice);
 				matcher.find();
+				
+				
 				float price;
 				float quant;
-				
 				try{
 					price = Float.parseFloat(matcher.group());
 					quant = Integer.parseInt(stringquant);
@@ -118,14 +125,16 @@ OnChartGestureListener, OnChartValueSelectedListener{
 				minprice = Math.min(minprice, price);
 				minquant = Math.min(minquant, quant);
 				
+				verbDateVals.add(date);
+				brevDateVals.add(date.substring(4,10));
 				
-				dateVals.add(date);
 		        priceVals.add(new Entry(price, i));
 		        quantVals.add(new Entry(quant, i));
 		        
 		        ++i;
 		        
 			}
+			dateVals = brevDateVals;
 			
 			minquant = Math.max(minquant, 1);
 			maxquant = Math.max(maxquant, 2);
@@ -150,26 +159,26 @@ OnChartGestureListener, OnChartValueSelectedListener{
 			
 			
 			
-			fis.read(data);
+			//fis.read(data);
 			fis.close();
 			//str = new String(data, "UTF-8");
 		}catch(IOException e){
 			return;
 		}
 		
-		//textView.setText(str);
-		//setContentView(textView);
-		//Pull all the data
+		
 	}
 	
-	private ArrayList<Entry> rescaleQuants(ArrayList<Entry> quantvals, int barval){
+	private ArrayList<Entry> rescaleQuants(ArrayList<Entry> quantvals, float progress){
 		ArrayList<Entry> rtn = new ArrayList<Entry>();
 		for(Entry e : quantvals){
-			Entry scalede = new Entry((float) Math.exp(a*barval + b)*e.getVal(), e.getXIndex(), (Float) e.getVal());
+			Entry scalede = new Entry((float) Math.exp(a*progress + b)*e.getVal(), e.getXIndex(), (Float) e.getVal());
 			rtn.add(scalede);
 		}
 		return rtn;
 	}
+	
+	
 	
 	
 	private void setGraph(ArrayList<String> dateVals, ArrayList<Entry> priceVals, ArrayList<Entry> quantVals){
@@ -180,7 +189,7 @@ OnChartGestureListener, OnChartValueSelectedListener{
         mChart.setOnChartValueSelectedListener(this);
         mChart.setDescription("");
         mChart.setNoDataTextDescription("No data yet.");
-        mChart.setUnit(" $");
+        mChart.setUnit("");
         mChart.setDrawUnitsInChart(true);
 
         mChart.setStartAtZero(false);
@@ -196,8 +205,8 @@ OnChartGestureListener, OnChartValueSelectedListener{
 
         
         mChart.setDrawGridBackground(false);
-        mChart.setDrawVerticalGrid(false);
-        mChart.setDrawHorizontalGrid(false);
+        mChart.setDrawVerticalGrid(true);
+        mChart.setDrawHorizontalGrid(true);
         
         // enable scaling and dragging
         mChart.setDragEnabled(true);
@@ -215,22 +224,23 @@ OnChartGestureListener, OnChartValueSelectedListener{
         priceset.setCircleSize(4f);
         priceset.setFillAlpha(65);
         priceset.setFillColor(ColorTemplate.getHoloBlue());
+        priceset.setDrawCircles(circlesOn);
+
         quantset.setColor(Color.rgb(255, 255, 0));
         quantset.setCircleColor(Color.rgb(255, 255, 0));
         quantset.setLineWidth(2f);
         quantset.setCircleSize(4f);
         quantset.setFillAlpha(65);
         quantset.setFillColor(Color.rgb(255, 255, 0));
+        quantset.setDrawCircles(circlesOn);
         
         ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
         dataSets.add(priceset); 
         dataSets.add(quantset);
         
         LineData data = new LineData(dateVals, dataSets);
-        //Create my own markerview and add it here
-        //MyCustomMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
-        //mChart.setMarkerView(mv);
-        //I'll have to include the original quantity data in some way
+        SteamMarkerView mv = new SteamMarkerView(this, R.layout.custom_marker_view);
+        mChart.setMarkerView(mv);
         
         
         mChart.setData(data);
@@ -244,16 +254,17 @@ OnChartGestureListener, OnChartValueSelectedListener{
         l.setTextColor(Color.WHITE);
         l.setXEntrySpace(13f);
         l.setFormToTextSpace(1f);
+        
+        
         XLabels xl = mChart.getXLabels();
         xl.setTextColor(Color.WHITE);
         
-        //Gonna need an X formatter as well
         
         YLabels yl = mChart.getYLabels();
         yl.setTextColor(Color.WHITE);
         
         
-        //yl.setFormatter(new MyFormatter(100));
+        yl.setFormatter(new PriceQuantityFormatter(a,b,100));
       	//MyFormatter will be a ValueFormatter whose getformattervalue method returns 
       	//a string containing both the value it's passed (the price), as well as quantity i.e. price divided by exp(a*progress+b). Perhaps rounded in some fashion.
       	//String x = new DecimalFormat("@@").format("3.14159"); returns 3.1
@@ -267,12 +278,10 @@ OnChartGestureListener, OnChartValueSelectedListener{
 		//In here we'll have to do a few things.
 		
 		
+		
 		YLabels yl = mChart.getYLabels();
-		//yl.setFormatter(new MyFormatter(progress));
-		//MyFormatter will be a ValueFormatter whose getformattervalue method returns 
-		//a string containing both the value it's passed (the price), as well as quantity i.e. price divided by exp(a*progress+b). Perhaps rounded in some fashion.
-		//String x = new DecimalFormat("@@").format("3.14159"); returns 3.1
-		//exp(a*progress + b) is the p/q ratio. 
+		yl.setFormatter(new PriceQuantityFormatter(a, b, progress));
+		 
 		
 		
 		LineDataSet priceset = new LineDataSet(priceVals, "Price");
@@ -284,45 +293,72 @@ OnChartGestureListener, OnChartValueSelectedListener{
         priceset.setCircleSize(4f);
         priceset.setFillAlpha(65);
         priceset.setFillColor(ColorTemplate.getHoloBlue());
+        priceset.setDrawCircles(circlesOn);
         quantset.setColor(Color.rgb(255, 255, 0));
         quantset.setCircleColor(Color.rgb(255, 255, 0));
         quantset.setLineWidth(2f);
         quantset.setCircleSize(4f);
         quantset.setFillAlpha(65);
         quantset.setFillColor(Color.rgb(255, 255, 0));
+        quantset.setDrawCircles(circlesOn);
+        
         
         ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-        dataSets.add(priceset); 
-        dataSets.add(quantset);
+        if(priceCheck.isChecked()) dataSets.add(priceset);
+        if(quantCheck.isChecked()) dataSets.add(quantset);
         
         LineData data = new LineData(dateVals, dataSets);
-        //Don't think I need a new MarkerView. I can just read off the actual quant value from the Entry object.
-        
-        
         mChart.setData(data);
-		
-		
-		
-		
+        
 		mChart.invalidate();
+		
 	}
 	
-	
+	 @Override
+	    public boolean onCreateOptionsMenu(Menu menu) {
+	        getMenuInflater().inflate(R.menu.datamenu, menu);
+	        return true;
+	    }
+
+	    @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+
+	        switch (item.getItemId()) {
+	            case R.id.actionToggleCircles: {
+	            	circlesOn = !circlesOn; 
+	            	ArrayList<LineDataSet> sets = (ArrayList<LineDataSet>) mChart.getData()
+	                         .getDataSets();
+
+	                 for (LineDataSet set : sets) {
+	                     if (set.isDrawCirclesEnabled())
+	                         set.setDrawCircles(false);
+	                     else
+	                         set.setDrawCircles(true);
+	                 }
+	                 mChart.invalidate();
+	                 break;
+	            }
+	            case R.id.actionToggleDateVerbose: {
+	                if(dateVals == verbDateVals) dateVals = brevDateVals;
+	                else dateVals = verbDateVals;
+	                onProgressChanged(priceToQuantRatio, priceToQuantRatio.getProgress(), true);
+	                break;
+	            }
+	        }
+	        return true;
+	    }
+
 	
 	public void onPriceBoxClicked(View pricebox){
-		CheckBox cb = (CheckBox) pricebox;
-		
+		mChart.highlightValue(-1,-1);
+		onProgressChanged(priceToQuantRatio, priceToQuantRatio.getProgress(), true);
 	}
 	
 	public void onQuantBoxClicked(View quantbox){
-		CheckBox cb = (CheckBox) quantbox;
-		
-		
+		mChart.highlightValue(-1,-1);
+		onProgressChanged(priceToQuantRatio, priceToQuantRatio.getProgress(), true);
 	}
-	
-	
-	
-	
+
 	@Override
 	public void onValueSelected(Entry e, int dataSetIndex) {
 		// TODO Auto-generated method stub
@@ -360,8 +396,6 @@ OnChartGestureListener, OnChartValueSelectedListener{
 		
 	}
 
-	
-
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
 		// TODO Auto-generated method stub
@@ -374,6 +408,6 @@ OnChartGestureListener, OnChartValueSelectedListener{
 		
 	}
 	
-
+	
 
 }
