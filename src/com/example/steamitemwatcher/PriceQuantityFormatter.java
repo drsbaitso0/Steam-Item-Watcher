@@ -1,6 +1,6 @@
 package com.example.steamitemwatcher;
 
-import java.text.DecimalFormat;
+
 
 import com.github.mikephil.charting.utils.ValueFormatter;
 

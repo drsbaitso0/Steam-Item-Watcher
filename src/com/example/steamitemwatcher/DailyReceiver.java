@@ -16,7 +16,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
@@ -53,6 +52,7 @@ public class DailyReceiver extends WakefulBroadcastReceiver {
 			FileInputStream fis = new FileInputStream(temppath);
 			Scanner sc = new Scanner(fis);
 			i = Integer.parseInt(sc.nextLine());
+			sc.close();
 	    }
 	    catch(IOException e){
 	    	i = 24;

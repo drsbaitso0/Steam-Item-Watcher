@@ -27,6 +27,7 @@ public class DailyBootReceiver extends BroadcastReceiver {
 				Scanner sc = new Scanner(fis);
 				i = Integer.parseInt(sc.nextLine());
 				alarm.setAlarm(context,  i);
+				sc.close();
 		    }
 		    catch(IOException e){
 		    	alarm.setAlarm(context, 24);

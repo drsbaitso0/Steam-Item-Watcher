@@ -24,5 +24,7 @@
     <string name="title_activity_data_dump">Data Dump</string>
     <string name="title_activity_settings">Settings</string>
     <string name="preference_length_of_time">Length Of Time</string>
+    <string name="MPAndroid">Uses MPAndroidChart under the Apache License 2.0 \nhttps://github.com/PhilJay/MPAndroidChart</string>
+    <string name="JSoup">Uses jsoup under the MIT License \nhttp://jsoup.org/</string>
 
 </resources>
