@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.steamitemwatcher"
+    package="ventullo.steamitemwatcher"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
     
     <uses-sdk
         android:minSdkVersion="11"
@@ -31,7 +32,7 @@
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.steamitemwatcher.MainActivity" />
+                android:value="ventullo.steamitemwatcher.MainActivity" />
         </activity>
         <activity
             android:name=".AddItem"
@@ -39,7 +40,7 @@
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.steamitemwatcher.MainActivity" />
+                android:value="ventullo.steamitemwatcher.MainActivity" />
         </activity>
         <activity
             android:name=".Settings"
@@ -47,7 +48,7 @@
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.steamitemwatcher.MainActivity" />
+                android:value="ventullo.steamitemwatcher.MainActivity" />
         </activity>
         <activity
             android:name=".DeleteItem"
@@ -55,7 +56,7 @@
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.steamitemwatcher.MainActivity" />
+                android:value="ventullo.steamitemwatcher.MainActivity" />
         </activity>
         <activity
             android:name=".About"
@@ -63,7 +64,7 @@
             android:parentActivityName=".Settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.steamitemwatcher.Settings" />
+                android:value="ventullo.steamitemwatcher.Settings" />
         </activity>
         <activity
             android:name=".HistoricalList"
@@ -71,7 +72,7 @@
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.steamitemwatcher.MainActivity" />
+                android:value="ventullo.steamitemwatcher.MainActivity" />
         </activity>
         <activity
             android:name=".DataDump"
@@ -79,7 +80,7 @@
             android:parentActivityName=".HistoricalList" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.steamitemwatcher.HistoricalList" />
+                android:value="ventullo.steamitemwatcher.HistoricalList" />
         </activity>
         <activity
             android:name=".AddItemSearchList"
@@ -87,17 +88,17 @@
             android:parentActivityName=".AddItem" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.steamitemwatcher.AddItem" />
+                android:value="ventullo.steamitemwatcher.AddItem" />
         </activity>
         
-        <receiver android:name="com.example.steamitemwatcher.DailyReceiver" />
+        <receiver android:name="ventullo.steamitemwatcher.DailyReceiver" />
         <receiver android:name=".DailyBootReceiver"
         	android:enabled="false">
     		<intent-filter>
         		<action android:name="android.intent.action.BOOT_COMPLETED"></action>
     		</intent-filter>
 		</receiver>
-        <service  android:name="com.example.steamitemwatcher.PriceRecordingService" />
+        <service  android:name="ventullo.steamitemwatcher.PriceRecordingService" />
     </application>
 
 </manifest>
